@@ -67,6 +67,20 @@ contract Semaphore is Verifier, MultipleMerkleTree, Ownable {
         root_history[current_root_index++ % root_history_size] = tree_roots[id_tree_index];
     }
 
+    function hasNullifier(uint n) public view returns (bool) {
+        return nullifiers_set[n];
+    }
+
+    function isInRootHistory(uint n) public view returns (bool) {
+        for (uint8 i = 0; i < root_history_size; i++) {
+            if (root_history[i] == n) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     function preBroadcastVerification (
         uint[2] a,
         uint[2][2] b,
@@ -76,23 +90,20 @@ contract Semaphore is Verifier, MultipleMerkleTree, Ownable {
     ) public view returns (bool) {
 
         bool correctInputs = 
+            hasNullifier(input[1]) == false &&
             signal_hash == input[2] &&
             external_nullifier == input[3] &&
-            verifyProof(a, b, c, input) &&
-            nullifiers_set[input[1]] == false &&
-            address(input[4]) == msg.sender;
+            address(input[4]) == msg.sender &&
+            verifyProof(a, b, c, input);
 
         if (!correctInputs) {
             return false;
+        } else {
+            return isInRootHistory(input[0]);
         }
 
-        for (uint8 i = 0; i < root_history_size; i++) {
-            if (root_history[i] == input[0]) {
-                return true;
-            }
-        }
-
-        return false;
+        // not sure if the above is more efficient than the following:
+        //return correctInputs && isInRootHistory(input[0]);
     }
 
     function broadcastSignal(
