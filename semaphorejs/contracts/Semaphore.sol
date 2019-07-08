@@ -82,17 +82,17 @@ contract Semaphore is Verifier, MultipleMerkleTree, Ownable {
             nullifiers_set[input[1]] == false &&
             address(input[4]) == msg.sender;
 
-        bool found_root = false;
+        if (!correctInputs) {
+            return false;
+        }
+
         for (uint8 i = 0; i < root_history_size; i++) {
             if (root_history[i] == input[0]) {
-                found_root = true;
-                break;
+                return true;
             }
         }
 
-        bool isValid = found_root && correctInputs;
-
-        return isValid;
+        return false;
     }
 
     function broadcastSignal(
