@@ -1,3 +1,6 @@
+blake2sdef.json
+build/.snark_checksum
+
 # Logs
 logs
 *.log
