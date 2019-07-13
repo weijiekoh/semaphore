@@ -39,8 +39,7 @@
     "web3": "^1.0.0-beta.51",
     "webpack": "^4.30.0",
     "websnark": "git+https://github.com/iden3/websnark.git",
-    "winston": "^3.2.1",
-    "zkp-sbmtjs": "^0.3.3"
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "npm-update-git-deps": "^1.2.4",

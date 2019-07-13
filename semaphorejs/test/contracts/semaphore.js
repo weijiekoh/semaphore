@@ -48,8 +48,8 @@ const proof_util = require('../../src/util');
 //const RocksDb = require('zkp-sbmtjs/src/storage/rocksdb');
 //const MemStorage = require('zkp-sbmtjs/src/storage/memory');
 const MemStorage = require('../../../sbmtjs/src/storage/memory')
-const MerkleTree = require('zkp-sbmtjs/src/tree');
-const MimcSpongeHasher = require('zkp-sbmtjs/src/hasher/mimcsponge');
+const MerkleTree = require('../../../sbmtjs/src/tree/')
+const MimcSpongeHasher = require('../../../sbmtjs/src/hasher/mimcsponge');
 
 const blake2 = require('blakejs');
 
