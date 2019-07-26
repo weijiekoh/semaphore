@@ -31,8 +31,8 @@ const MerkleTree = artifacts.require('MerkleTree');
 const MerkleTreeTester = artifacts.require('MerkleTreeTester');
 
 const RocksDb = require('../../src/util/rocksdb')
-const SemaphoreMerkleTree = require('semaphore-merkle-tree')
 
+const SemaphoreMerkleTree = require('semaphore-merkle-tree')
 const MerkleTreeLib = SemaphoreMerkleTree.tree.MerkleTree
 const MimcSpongeHasher = SemaphoreMerkleTree.hashers.MimcSpongeHasher
 
