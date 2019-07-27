@@ -189,13 +189,48 @@ contract('Semaphore', function (accounts) {
         const witness_bin = proof_util.convertWitness(snarkjs.stringifyBigInts(w));
         const publicSignals = w.slice(1, circuit.nPubInputs + circuit.nOutputs+1);
         const proof = await proof_util.prove(witness_bin.buffer, vk_proof.buffer);
-        await semaphore.broadcastSignal(
+        let failed = false;
+        try {
+          await semaphore.broadcastSignal(
+              signal_to_contract,
+              [ proof.pi_a[0].toString(), proof.pi_a[1].toString() ],
+              [ [ proof.pi_b[0][1].toString(), proof.pi_b[0][0].toString() ], [ proof.pi_b[1][1].toString(), proof.pi_b[1][0].toString() ] ],
+              [ proof.pi_c[0].toString(), proof.pi_c[1].toString() ],
+              [ publicSignals[1].toString(), publicSignals[0].toString(), publicSignals[2].toString(), publicSignals[3].toString(), publicSignals[4].toString() ],
+          );
+        } catch(e) {
+          failed = true;
+        }
+        assert.equal(failed, true);
+
+        failed = false;
+        try {
+          await semaphore.broadcastSignal(
+              signal_to_contract,
+              [ proof.pi_a[0].toString(), proof.pi_a[1].toString() ],
+              [ [ proof.pi_b[0][1].toString(), proof.pi_b[0][0].toString() ], [ proof.pi_b[1][1].toString(), proof.pi_b[1][0].toString() ] ],
+              [ proof.pi_c[0].toString(), proof.pi_c[1].toString() ],
+              [ publicSignals[0].toString(), (publicSignals[1].add(bigInt('21888242871839275222246405745257275088548364400416034343698204186575808495617'))).toString(), publicSignals[2].toString(), publicSignals[3].toString(), publicSignals[4].toString() ],
+          );
+        } catch(e) {
+          failed = true;
+        }
+        assert.equal(failed, true);
+
+        const a = [ proof.pi_a[0].toString(), proof.pi_a[1].toString() ]
+        const b = [ [ proof.pi_b[0][1].toString(), proof.pi_b[0][0].toString() ], [ proof.pi_b[1][1].toString(), proof.pi_b[1][0].toString() ] ]
+        const c = [ proof.pi_c[0].toString(), proof.pi_c[1].toString() ]
+        const input = [ publicSignals[0].toString(), publicSignals[1].toString(), publicSignals[2].toString(), publicSignals[3].toString(), publicSignals[4].toString() ]
+
+        const check = await semaphore.preBroadcastCheck(a, b, c, input, bigInt(signal_hash).toString())
+        assert.isTrue(check)
+
+        const broadcastTx = await semaphore.broadcastSignal(
             signal_to_contract,
-            [ proof.pi_a[0].toString(), proof.pi_a[1].toString() ],
-            [ [ proof.pi_b[0][1].toString(), proof.pi_b[0][0].toString() ], [ proof.pi_b[1][1].toString(), proof.pi_b[1][0].toString() ] ],
-            [ proof.pi_c[0].toString(), proof.pi_c[1].toString() ],
-            [ publicSignals[0].toString(), publicSignals[1].toString(), publicSignals[2].toString(), publicSignals[3].toString(), publicSignals[4].toString() ],
+            a, b, c, input
         );
+
+        assert.isTrue(broadcastTx.receipt.status)
 
         /*
         const evs = await semaphore.getPastEvents('allEvents', {
