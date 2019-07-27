@@ -52,7 +52,6 @@ const MemStorage = SemaphoreMerkleTree.storage.MemStorage
 const MerkleTree = SemaphoreMerkleTree.tree.MerkleTree
 const MimcSpongeHasher = SemaphoreMerkleTree.hashers.MimcSpongeHasher
 
-
 function pedersenHash(ints) {
   const p = circomlib.babyJub.unpackPoint(circomlib.pedersenHash.hash(Buffer.concat(
              ints.map(x => x.leInt2Buff(32))
