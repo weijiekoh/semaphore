@@ -132,7 +132,7 @@ contract('Semaphore', function (accounts) {
             prefix,
             storage,
             hasher,
-            20,
+            12,
             default_value,
         );
 
@@ -140,7 +140,7 @@ contract('Semaphore', function (accounts) {
             prefix,
             memStorage,
             hasher,
-            20,
+            12,
             default_value,
         );
 
@@ -304,7 +304,7 @@ contract('Semaphore', function (accounts) {
             prefix,
             storage,
             hasher,
-            20,
+            12,
             default_value,
         );
 
@@ -312,7 +312,7 @@ contract('Semaphore', function (accounts) {
             prefix,
             memStorage,
             hasher,
-            20,
+            12,
             default_value,
         );
 
