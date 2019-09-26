@@ -90,7 +90,7 @@ describe('circuit test', function () {
         const identity_trapdoor = bigInt('231');
         const identity_commitment = pedersenHash([bigInt(circomlib.babyJub.mulPointEscalar(pubKey, 8)[0]), bigInt(identity_nullifier), bigInt(identity_trapdoor)]);
 
-        const tree = build_merkle_tree_example(20, identity_commitment);
+        const tree = build_merkle_tree_example(4, identity_commitment);
 
         const identity_path_elements = tree[1];
         const identity_path_index = tree[2];
