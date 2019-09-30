@@ -45,6 +45,8 @@ const assert = chai.assert;
 
 const Semaphore = artifacts.require('Semaphore');
 
+const treeDepth = 7
+
 const proof_util = require('../../src/util');
 
 const RocksDb = require('../../src/util/rocksdb')
@@ -137,7 +139,7 @@ contract('Semaphore', function (accounts) {
             //prefix,
             //storage,
             //hasher,
-            //12,
+            //treeDepth,
             //default_value,
         //);
 
@@ -145,7 +147,7 @@ contract('Semaphore', function (accounts) {
             prefix,
             memStorage,
             hasher,
-            12,
+            treeDepth,
             default_value,
         );
 
@@ -300,7 +302,7 @@ contract('Semaphore', function (accounts) {
             prefix,
             memStorage,
             hasher,
-            12,
+            treeDepth,
             default_value,
         );
 
@@ -401,7 +403,7 @@ contract('Semaphore', function (accounts) {
             prefix,
             memStorage,
             hasher,
-            12,
+            treeDepth,
             default_value,
         );
 
@@ -508,7 +510,7 @@ contract('Semaphore', function (accounts) {
             prefix,
             memStorage,
             hasher,
-            12,
+            treeDepth,
             default_value,
         );
 
